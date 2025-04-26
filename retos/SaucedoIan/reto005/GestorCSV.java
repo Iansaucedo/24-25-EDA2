@@ -17,6 +17,14 @@ public class GestorCSV {
         columnas = numColumnas;
     }
 
+    public Object obtenerIndice(String nombreColumna) {
+        int indiceColumna = obtenerIndiceColumna(nombreColumna);
+        if (indiceColumna == -1 || !columnaIndexada[indiceColumna]) {
+            return null;
+        }
+        return indices[indiceColumna];
+    }
+
     public void cargarDatos(String[] cabeceras, String[][] datosEntrada) {
         this.cabeceras = cabeceras;
         filas = datosEntrada.length;

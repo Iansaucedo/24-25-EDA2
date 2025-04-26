@@ -85,7 +85,6 @@ public class PruebasOrdenamiento {
         };
         gestor.cargarDatos(cabeceras, datos);
 
-        // Probar índice normal
         gestor.crearIndice("Curso");
         assert gestor.estaIndexada("Curso") : "Error en creación de índice normal";
 
@@ -93,5 +92,33 @@ public class PruebasOrdenamiento {
         assert gestor.estaIndexada("Nota") : "Error en creación de índice ordenado";
 
         System.out.println("Pruebas de índices completadas");
+    }
+
+    private static void probarBusquedaBinaria() {
+        GestorCSV gestor = new GestorCSV(10, 4);
+        String[] cabeceras = { "ID", "Nombre", "Curso", "Nota" };
+        String[][] datos = {
+                { "1", "Ana", "Math", "90" },
+                { "2", "Carlos", "Physics", "85" },
+                { "3", "Elena", "Math", "95" },
+                { "4", "Juan", "Physics", "88" },
+                { "5", "María", "Math", "92" }
+        };
+        gestor.cargarDatos(cabeceras, datos);
+
+        gestor.crearIndiceOrdenado("Nota", false, "quicksort");
+        IndiceOrdenado indice = (IndiceOrdenado) gestor.obtenerIndice("Nota");
+        BuscadorBinario buscador = new BuscadorBinario(indice);
+
+        // Probar búsqueda exacta
+        int[] resultado = buscador.buscar("90");
+        assert resultado.length == 1 : "Error en búsqueda binaria exacta";
+        assert resultado[0] == 0 : "Error en posición encontrada";
+
+        // Probar búsqueda por rango
+        int[] resultadoRango = buscador.buscarRango("85", "90");
+        assert resultadoRango.length == 3 : "Error en búsqueda binaria por rango";
+
+        System.out.println("Pruebas de búsqueda binaria completadas");
     }
 }
