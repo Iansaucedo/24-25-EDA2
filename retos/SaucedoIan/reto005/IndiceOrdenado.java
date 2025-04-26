@@ -6,11 +6,6 @@ public abstract class IndiceOrdenado {
   protected boolean descendente;
   protected TipoOrden tipoOrden;
 
-  public enum TipoOrden {
-    ALFANUMERICO,
-    NUMERICO
-  }
-
   public IndiceOrdenado(int capacidadMaxima, boolean descendente, TipoOrden tipoOrden) {
     this.valores = new String[capacidadMaxima];
     this.posiciones = new int[capacidadMaxima][capacidadMaxima];
