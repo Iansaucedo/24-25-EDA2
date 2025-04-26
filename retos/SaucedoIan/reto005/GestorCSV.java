@@ -184,4 +184,12 @@ public class GestorCSV {
         }
         System.out.println("=".repeat(60));
     }
+
+    public int getColumnas() {
+        return columnas;
+    }
+
+    public String getDato(int fila, int columna) {
+        return datos[fila][columna];
+    }
 }

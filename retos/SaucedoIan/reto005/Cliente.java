@@ -1,24 +1,11 @@
 public class Cliente {
     public static void main(String[] args) {
-        GestorCSV gestor = new GestorCSV(100, 4);
-
-        cargarDatos(gestor);
-
-        gestor.imprimirDatos();
-
-        // System.out.println("> ESTUDIANTES DE PROGRAMACIÓN 2");
-        // imprimirDataset(gestor.buscarPorIndice("Asignatura", "Programación 2"));
-
-        // System.out.println("> ESTUDIANTE CON ID 1003");
-        // imprimirDataset(gestor.buscarPorIndice("ID", "1003"));
-
-        // System.out.println("> ASIGNATURAS DISPONIBLES");
-        // imprimirDataset(gestor.obtenerValoresUnicos("Asignatura"));
+        InterfazCLI cli = new InterfazCLI();
+        cli.iniciar();
     }
 
-    private static void cargarDatos(GestorCSV gestor) {
+    public static void cargarDatos(GestorCSV gestor) {
         String[] cabeceras = { "ID", "Nombre", "Asignatura", "Calificacion" };
-
         String[][] datosEjemplo = {
                 { "1075", "Olivia Miranda", "Redes de Computadoras", "88" },
                 { "1096", "Salvador Cárdenas", "Arquitectura de Computadoras", "75" },
@@ -127,18 +114,64 @@ public class Cliente {
     }
 
     private static void imprimirDataset(String[] resultado) {
+        System.out.println("\nÍndice | Valor");
+        System.out.println("-------|------------------------");
         for (int i = 0; i < resultado.length; i++) {
-            System.out.println(resultado[i]);
+            System.out.printf("%6d | %s%n", i + 1, resultado[i]);
         }
+        System.out.println();
     }
 
     private static void imprimirDataset(String[][] resultado) {
-        for (int i = 0; i < resultado.length; i++) {
-            for (int j = 0; j < resultado[i].length; j++) {
-                System.out.print(resultado[i][j] + "\t");
+        if (resultado.length == 0)
+            return;
+
+        int[] anchos = calcularAnchosColumnas(resultado);
+        imprimirEncabezado(anchos);
+        imprimirSeparador(anchos);
+        imprimirFilas(resultado, anchos);
+    }
+
+    private static int[] calcularAnchosColumnas(String[][] datos) {
+        int[] anchos = new int[datos[0].length];
+        for (String[] fila : datos) {
+            for (int i = 0; i < fila.length; i++) {
+                anchos[i] = Math.max(anchos[i], fila[i].length());
+            }
+        }
+        return anchos;
+    }
+
+    private static void imprimirEncabezado(int[] anchos) {
+        System.out.printf("%4s |", "Nº");
+        for (int i = 0; i < anchos.length; i++) {
+            System.out.printf(" %-" + anchos[i] + "s |", "Col " + (i + 1));
+        }
+        System.out.println();
+    }
+
+    private static void imprimirSeparador(int[] anchos) {
+        System.out.print("-----|");
+        for (int ancho : anchos) {
+            System.out.print("-".repeat(ancho + 2) + "|");
+        }
+        System.out.println();
+    }
+
+    private static void imprimirFilas(String[][] datos, int[] anchos) {
+        for (int i = 0; i < datos.length; i++) {
+            System.out.printf("%4d |", i + 1);
+            for (int j = 0; j < datos[i].length; j++) {
+                System.out.printf(" %-" + anchos[j] + "s |", datos[i][j]);
             }
             System.out.println();
         }
         System.out.println();
+    }
+
+    public static void mostrarValoresOrdenados(GestorCSV gestor, String columna) {
+        String[] valores = gestor.obtenerValoresUnicos(columna);
+        System.out.println("\nValores ordenados para la columna: " + columna);
+        imprimirDataset(valores);
     }
 }
