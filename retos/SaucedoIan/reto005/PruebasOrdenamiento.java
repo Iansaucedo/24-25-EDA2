@@ -4,6 +4,7 @@ public class PruebasOrdenamiento {
         probarAlgoritmosOrdenamiento();
         probarBusquedas();
         probarIndices();
+        probarBusquedaBinaria();
         System.out.println("Todas las pruebas completadas exitosamente.");
     }
 
@@ -110,12 +111,10 @@ public class PruebasOrdenamiento {
         IndiceOrdenado indice = (IndiceOrdenado) gestor.obtenerIndice("Nota");
         BuscadorBinario buscador = new BuscadorBinario(indice);
 
-        // Probar búsqueda exacta
         int[] resultado = buscador.buscar("90");
         assert resultado.length == 1 : "Error en búsqueda binaria exacta";
         assert resultado[0] == 0 : "Error en posición encontrada";
 
-        // Probar búsqueda por rango
         int[] resultadoRango = buscador.buscarRango("85", "90");
         assert resultadoRango.length == 3 : "Error en búsqueda binaria por rango";
 

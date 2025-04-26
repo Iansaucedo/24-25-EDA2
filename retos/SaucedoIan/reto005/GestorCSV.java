@@ -133,7 +133,7 @@ public class GestorCSV {
     private TipoOrden determinarTipoOrden(int indiceColumna) {
         int valoresNumericos = 0;
         int valoresAnalizados = 0;
-        int muestraMaxima = Math.min(filas, 10); // Analizar máximo 10 valores
+        int muestraMaxima = Math.min(filas, 10);
 
         for (int i = 0; i < filas && valoresAnalizados < muestraMaxima; i++) {
             String valor = datos[i][indiceColumna];
